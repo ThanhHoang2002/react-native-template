@@ -23,7 +23,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.hoangnt.dev.reactnativetemplate"
     },
     "web": {
       "output": "static",
@@ -51,7 +52,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "1356002b-155d-4de8-9928-851c9353af69"
+        "projectId": "9c14ba87-5be9-4229-8dfc-b42b2e3e2eef"
       }
     }
   }
