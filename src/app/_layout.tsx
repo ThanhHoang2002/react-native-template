@@ -1,6 +1,11 @@
 import { Stack } from "expo-router";
-import "../styles/global.css";
+
+import StorybookUIRoot from "../../.rnstorybook";
 
 export default function RootLayout() {
-  return <Stack />;
+  if (process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true") {
+    return <StorybookUIRoot />;
+  }
+
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
