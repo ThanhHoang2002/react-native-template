@@ -17,7 +17,7 @@ export function GoogleSignInButton({
       fullWidth
       variant="secondary"
       onPress={onPress}
-      leftIcon={<Ionicons name="logo-google" size={19} color="#ffffff" />}
+      leftIcon={<Ionicons name="logo-google" size={19} color="#4285f4" />}
     >
       Đăng nhập với Google
     </Button>

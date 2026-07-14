@@ -1,12 +1,9 @@
-import type { ComponentProps } from "react";
-
-import type { Ionicons } from "@expo/vector-icons";
-
 import type { AuthMode } from "../types/auth";
 
-type IoniconName = ComponentProps<typeof Ionicons>["name"];
-
-export const authCopy: Record<AuthMode, { title: string; description: string }> = {
+export const authCopy: Record<
+  AuthMode,
+  { title: string; description: string }
+> = {
   login: {
     title: "Đăng nhập Quỹ FC",
     description: "Vào đội của bạn để theo dõi quỹ, khoản cần thu và lịch trận.",

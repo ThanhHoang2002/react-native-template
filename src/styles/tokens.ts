@@ -1,17 +1,22 @@
 export const semanticTokens = {
   color: {
+    foreground: "#102033",
     inverseForeground: "#ffffff",
-    mutedForeground: "#c4d8d4",
-    primary: "#35e58b",
+    mutedForeground: "#64748b",
+    primary: "#2dbe8f",
+    accent: "#43b8f2",
+    warning: "#f7c948",
+    destructive: "#ef5a5a",
   },
   shadow: {
-    surface: "0 28px 72px rgba(0, 0, 0, 0.36)",
-    surfaceGlow: "0 0 0 1px rgba(218,255,247,0.18), 0 34px 86px rgba(53, 229, 139, 0.16)",
-    pressed: "0 12px 30px rgba(0, 0, 0, 0.28)",
-    primary: "0 18px 48px rgba(53, 229, 139, 0.3)",
-    destructive: "0 18px 42px rgba(241, 85, 94, 0.25)",
-    input: "0 14px 36px rgba(0, 0, 0, 0.22)",
-    inputError: "0 0 0 3px rgba(241, 85, 94, 0.12)",
+    surface: "0 24px 64px rgba(16, 32, 51, 0.12)",
+    surfaceGlow:
+      "0 0 0 1px rgba(255,255,255,0.72), 0 28px 80px rgba(67, 184, 242, 0.18), 0 12px 36px rgba(45, 190, 143, 0.12)",
+    pressed: "0 10px 24px rgba(16, 32, 51, 0.12)",
+    primary: "0 18px 44px rgba(45, 190, 143, 0.26)",
+    destructive: "0 18px 42px rgba(239, 90, 90, 0.22)",
+    input: "0 14px 36px rgba(16, 32, 51, 0.1)",
+    inputError: "0 0 0 3px rgba(239, 90, 90, 0.14)",
   },
 } as const;
 

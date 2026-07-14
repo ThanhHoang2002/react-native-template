@@ -2,17 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Controller, type Control, type FieldErrors } from "react-hook-form";
 import { Pressable, View } from "react-native";
 
-import {
-  Button,
-  Card,
-  CardContent,
-  Input,
-  Typography
-} from "@/components/ui";
-import type {
-  AuthFormValues,
-  AuthMode,
-} from "../types/auth";
+import { Button, Card, CardContent, Input, Typography } from "@/components/ui";
+import type { AuthFormValues, AuthMode } from "../types/auth";
 import { GoogleSignInButton } from "./google-sign-in-button";
 import { PasswordField } from "./password-field";
 
@@ -36,7 +27,7 @@ export function AuthFormCard({
   onSubmit,
 }: AuthFormCardProps) {
   return (
-    <Card variant="muted" className="border-white/30" contentClassName="gap-5">
+    <Card variant="muted" contentClassName="gap-5">
       <CardContent className="gap-4">
         <AuthFields
           control={control}
@@ -48,7 +39,9 @@ export function AuthFormCard({
           fullWidth
           size="lg"
           onPress={onSubmit}
-          rightIcon={<Ionicons name="arrow-forward" size={19} color="#ffffff" />}
+          rightIcon={
+            <Ionicons name="arrow-forward" size={19} color="#ffffff" />
+          }
         >
           {isRegister ? "Tạo tài khoản" : "Đăng nhập"}
         </Button>
@@ -62,18 +55,10 @@ export function AuthFormCard({
 
 type AuthFieldsProps = Pick<
   AuthFormCardProps,
-  | "control"
-  | "errors"
-  | "isRegister"
-  | "mode"
+  "control" | "errors" | "isRegister" | "mode"
 >;
 
-function AuthFields({
-  control,
-  errors,
-  isRegister,
-  mode,
-}: AuthFieldsProps) {
+function AuthFields({ control, errors, isRegister, mode }: AuthFieldsProps) {
   return (
     <>
       {isRegister ? (
@@ -131,11 +116,11 @@ function AuthFields({
 function AuthDivider() {
   return (
     <View className="flex-row items-center gap-3">
-      <View className="h-px flex-1 bg-white/14" />
-      <Typography variant="caption" className="text-white/54">
+      <View className="h-px flex-1 bg-foreground/10" />
+      <Typography variant="caption">
         hoặc dùng email
       </Typography>
-      <View className="h-px flex-1 bg-white/14" />
+      <View className="h-px flex-1 bg-foreground/10" />
     </View>
   );
 }
@@ -148,7 +133,7 @@ type AuthModePromptProps = {
 function AuthModePrompt({ isRegister, onModeChange }: AuthModePromptProps) {
   return (
     <View className="flex-row items-center justify-center gap-1">
-      <Typography variant="caption" className="text-white/62">
+      <Typography variant="caption">
         {isRegister ? "Đã có tài khoản?" : "Chưa có tài khoản?"}
       </Typography>
       <Pressable

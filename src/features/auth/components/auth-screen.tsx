@@ -1,9 +1,4 @@
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
 import { ScreenBackground } from "@/components/ui";
 
@@ -11,7 +6,6 @@ import { useAuthForm } from "../hooks/use-auth-form";
 import type { AuthMode, AuthSubmitHandler } from "../types/auth";
 import { AuthFormCard } from "./auth-form-card";
 import { AuthHero } from "./auth-hero";
-import { AuthMetricsRow } from "./auth-metrics-row";
 
 export type AuthScreenProps = {
   initialMode?: AuthMode;
@@ -35,7 +29,7 @@ export function AuthScreen({
         <ScrollView
           keyboardShouldPersistTaps="handled"
           className="flex-1"
-          contentContainerClassName="min-h-full px-5 pb-8 pt-14"
+          contentContainerClassName="min-h-full px-5 pb-8 pt-0"
         >
           <View className="min-h-full justify-center gap-6">
             <AuthHero mode={form.mode} />
@@ -50,7 +44,7 @@ export function AuthScreen({
               onSubmit={form.submit(onSubmit)}
             />
 
-            <AuthMetricsRow />
+            {/* <AuthMetricsRow /> */}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

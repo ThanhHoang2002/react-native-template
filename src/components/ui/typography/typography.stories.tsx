@@ -23,7 +23,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
-  render: (args) => <Typography {...args} className="text-white" />,
+  render: (args) => <Typography {...args} />,
 };
 
 export const Scale: Story = {
@@ -32,19 +32,19 @@ export const Scale: Story = {
   },
   render: () => (
     <View className="gap-3">
-      <Typography variant="display" className="text-white">
+      <Typography variant="display">
         Quỹ FC
       </Typography>
-      <Typography variant="title" className="text-white">
+      <Typography variant="title">
         Trận kế tiếp
       </Typography>
-      <Typography variant="body" className="text-white/76">
+      <Typography variant="body">
         Theo dõi quỹ, công nợ và đối soát chuyển khoản theo từng đội.
       </Typography>
-      <Typography variant="label" className="text-white">
+      <Typography variant="label">
         Số dư quỹ hiện tại
       </Typography>
-      <Typography variant="caption" className="text-white/64">
+      <Typography variant="caption">
         Cập nhật 5 phút trước
       </Typography>
     </View>

@@ -16,27 +16,27 @@ import { semanticTokens } from "../../../styles/tokens";
 
 const buttonVariants = {
   primary: {
-    className: "border-white/50 bg-primary/90",
+    className: "border-white/70 bg-primary",
     textClassName: "text-primary-foreground",
     activityColor: semanticTokens.color.inverseForeground,
-    blurIntensity: 30,
-    blurTint: "dark",
+    blurIntensity: 24,
+    blurTint: "light",
     shadow: semanticTokens.shadow.primary,
   },
   secondary: {
-    className: "border-glass-border bg-glass-surface-strong",
+    className: "border-glass-border-strong bg-glass-surface-strong",
     textClassName: "text-foreground",
     activityColor: semanticTokens.color.primary,
-    blurIntensity: 58,
-    blurTint: "light",
+    blurIntensity: 74,
+    blurTint: "extraLight",
     shadow: semanticTokens.shadow.surface,
   },
   outline: {
-    className: "border-glass-border bg-glass-surface-muted",
+    className: "border-glass-border-strong bg-glass-surface-muted",
     textClassName: "text-foreground",
     activityColor: semanticTokens.color.primary,
-    blurIntensity: 40,
-    blurTint: "light",
+    blurIntensity: 62,
+    blurTint: "extraLight",
     shadow: undefined,
   },
   ghost: {
@@ -48,11 +48,11 @@ const buttonVariants = {
     shadow: undefined,
   },
   destructive: {
-    className: "border-white/50 bg-destructive/90",
+    className: "border-white/70 bg-destructive",
     textClassName: "text-destructive-foreground",
     activityColor: semanticTokens.color.inverseForeground,
     blurIntensity: 28,
-    blurTint: "dark",
+    blurTint: "light",
     shadow: semanticTokens.shadow.destructive,
   },
 } as const;
@@ -131,7 +131,9 @@ export function Button({
           opacity: isDisabled ? 0.5 : 1,
           transform: [{ scale: state.pressed && !isDisabled ? 0.98 : 1 }],
         },
-        button.shadow ? ({ boxShadow: button.shadow } satisfies ViewStyle) : undefined,
+        button.shadow
+          ? ({ boxShadow: button.shadow } satisfies ViewStyle)
+          : undefined,
         state.pressed && !isDisabled
           ? ({ boxShadow: semanticTokens.shadow.pressed } satisfies ViewStyle)
           : undefined,
@@ -146,7 +148,10 @@ export function Button({
           className="absolute inset-0"
         />
       ) : null}
-      <View pointerEvents="none" className="absolute left-px right-px top-px h-1/2 bg-white/20" />
+      <View
+        pointerEvents="none"
+        className="absolute left-px right-px top-px h-1/2 bg-white/24"
+      />
 
       {loading ? (
         <ActivityIndicator color={button.activityColor} />

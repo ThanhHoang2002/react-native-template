@@ -27,44 +27,61 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const badgeVariants = ["primary", "accent", "success", "warning", "destructive", "neutral"] as const;
-const buttonVariants = ["primary", "secondary", "outline", "ghost", "destructive"] as const;
+const badgeVariants = [
+  "primary",
+  "accent",
+  "success",
+  "warning",
+  "destructive",
+  "neutral",
+] as const;
+const buttonVariants = [
+  "primary",
+  "secondary",
+  "outline",
+  "ghost",
+  "destructive",
+] as const;
 const surfaceVariants = ["muted", "default", "strong", "dark"] as const;
 
 export const Foundation: Story = {
   render: () => (
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="gap-5 pb-10">
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerClassName="gap-5 pb-10"
+    >
       <View className="gap-2">
         <Badge variant="primary">FC Anh Em</Badge>
-        <Typography variant="display" className="text-white">
+        <Typography variant="display">
           Design System
         </Typography>
-        <Typography variant="body" className="text-white/76">
-          Components for football team finance, attendance and payment workflows.
+        <Typography variant="body">
+          Components for football team finance, attendance and payment
+          workflows.
         </Typography>
       </View>
 
       <Card variant="muted">
         <CardHeader>
-          <CardTitle className="text-white">Typography</CardTitle>
-          <CardDescription className="text-white/72">
+          <CardTitle>Typography</CardTitle>
+          <CardDescription>
             Display, title, body, label and caption styles.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Typography variant="display" className="text-white">
+          <Typography variant="display">
             Quỹ FC
           </Typography>
-          <Typography variant="title" className="text-white">
+          <Typography variant="title">
             Trận kế tiếp
           </Typography>
-          <Typography variant="body" className="text-white/76">
+          <Typography variant="body">
             Theo dõi quỹ, công nợ và đối soát chuyển khoản theo từng đội.
           </Typography>
-          <Typography variant="label" className="text-white">
+          <Typography variant="label">
             Số dư quỹ hiện tại
           </Typography>
-          <Typography variant="caption" className="text-white/64">
+          <Typography variant="caption">
             Cập nhật 5 phút trước
           </Typography>
         </CardContent>
@@ -72,8 +89,8 @@ export const Foundation: Story = {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-white">Buttons</CardTitle>
-          <CardDescription className="text-white/72">
+          <CardTitle>Buttons</CardTitle>
+          <CardDescription>
             Primary actions, secondary surfaces and destructive states.
           </CardDescription>
         </CardHeader>
@@ -82,7 +99,7 @@ export const Foundation: Story = {
             <Button
               key={variant}
               variant={variant}
-              leftIcon={<Ionicons name="football" size={18} color="#ffffff" />}
+              leftIcon={<Ionicons name="football" size={18} color="#2dbe8f" />}
             >
               {variant}
             </Button>
@@ -108,28 +125,42 @@ export const Foundation: Story = {
 
       <Card variant="muted">
         <CardHeader>
-          <CardTitle className="text-white">Inputs</CardTitle>
-          <CardDescription className="text-white/72">
+          <CardTitle>Inputs</CardTitle>
+          <CardDescription>
             Form fields with helper and error copy.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Input label="Số tiền" placeholder="80000" helperText="VND được lưu dạng số nguyên." />
+          <Input
+            label="Số tiền"
+            placeholder="80000"
+            helperText="VND được lưu dạng số nguyên."
+          />
           <Input label="Mã chuyển khoản" value="QF7K9X2P" editable={false} />
-          <Input label="Tên thành viên" value="Minh" errorText="Tên này đã tồn tại trong đội." />
+          <Input
+            label="Tên thành viên"
+            value="Minh"
+            errorText="Tên này đã tồn tại trong đội."
+          />
         </CardContent>
       </Card>
 
       <View className="gap-3">
-        <Typography variant="title" className="text-white">
+        <Typography variant="title">
           Surfaces
         </Typography>
         {surfaceVariants.map((variant) => (
           <Surface key={variant} variant={variant}>
-            <Typography variant="label" className="text-white">
+            <Typography
+              variant="label"
+              className={variant === "dark" ? "text-white" : undefined}
+            >
               {variant}
             </Typography>
-            <Typography variant="caption" className="text-white/68">
+            <Typography
+              variant="caption"
+              className={variant === "dark" ? "text-white/68" : undefined}
+            >
               Glass surface for cards, panels and dense workflow blocks.
             </Typography>
           </Surface>

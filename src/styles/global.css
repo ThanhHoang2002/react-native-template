@@ -5,40 +5,43 @@
 @import "nativewind/theme";
 
 @theme {
-  /* Primitive palette: night pitch glass */
-  --color-pitch-950: hsl(202 56% 6%);
-  --color-pitch-900: hsl(198 50% 10%);
-  --color-pitch-800: hsl(190 42% 15%);
-  --color-turf-500: hsl(152 74% 43%);
-  --color-turf-400: hsl(151 78% 53%);
-  --color-aqua-400: hsl(185 86% 58%);
-  --color-gold-400: hsl(43 96% 63%);
-  --color-coral-500: hsl(357 82% 64%);
-  --color-fog-50: hsl(170 32% 96%);
-  --color-fog-200: hsl(174 22% 82%);
+  /* Primitive palette: premium light glass */
+  --color-ink-950: hsl(214 52% 13%);
+  --color-ink-700: hsl(214 24% 34%);
+  --color-slate-500: hsl(215 16% 47%);
+  --color-mist-50: hsl(205 100% 98%);
+  --color-mist-100: hsl(196 80% 94%);
+  --color-mint-50: hsl(158 72% 94%);
+  --color-mint-500: hsl(160 61% 46%);
+  --color-mint-600: hsl(160 58% 40%);
+  --color-sky-400: hsl(201 87% 61%);
+  --color-amber-400: hsl(43 92% 62%);
+  --color-coral-500: hsl(0 82% 65%);
+  --color-white-glass: hsl(0 0% 100%);
 
   /* Semantic palette */
-  --color-background: var(--color-pitch-950);
-  --color-background-soft: var(--color-pitch-900);
-  --color-foreground: var(--color-fog-50);
-  --color-muted-foreground: var(--color-fog-200);
+  --color-background: var(--color-mist-50);
+  --color-background-soft: var(--color-mint-50);
+  --color-foreground: var(--color-ink-950);
+  --color-muted-foreground: var(--color-slate-500);
 
-  --color-primary: var(--color-turf-400);
+  --color-primary: var(--color-mint-500);
   --color-primary-foreground: hsl(0 0% 100%);
-  --color-accent: var(--color-aqua-400);
-  --color-highlight: var(--color-gold-400);
-  --color-payment-glow: var(--color-aqua-400);
-  --color-success: var(--color-turf-500);
-  --color-warning: var(--color-gold-400);
+  --color-accent: var(--color-sky-400);
+  --color-highlight: var(--color-amber-400);
+  --color-payment-glow: var(--color-sky-400);
+  --color-success: var(--color-mint-600);
+  --color-warning: var(--color-amber-400);
   --color-destructive: var(--color-coral-500);
   --color-destructive-foreground: hsl(0 0% 100%);
 
   /* Component palette */
-  --color-glass-surface: hsl(180 100% 98% / 0.12);
-  --color-glass-surface-muted: hsl(180 100% 98% / 0.08);
-  --color-glass-surface-strong: hsl(180 100% 98% / 0.18);
-  --color-glass-border: hsl(180 100% 98% / 0.26);
-  --color-surface-dark: hsl(201 55% 7%);
+  --color-glass-surface: hsl(0 0% 100% / 0.64);
+  --color-glass-surface-muted: hsl(0 0% 100% / 0.48);
+  --color-glass-surface-strong: hsl(0 0% 100% / 0.78);
+  --color-glass-border: hsl(0 0% 100% / 0.78);
+  --color-glass-border-strong: hsl(197 82% 83% / 0.48);
+  --color-surface-dark: hsl(214 48% 16%);
 
   --radius-glass-sm: 10px;
   --radius-glass-md: 14px;

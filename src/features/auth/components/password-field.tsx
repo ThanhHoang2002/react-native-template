@@ -45,7 +45,7 @@ export function PasswordField({
         <Ionicons
           name={showPassword ? "eye-off-outline" : "eye-outline"}
           size={20}
-          color="#c4d8d4"
+          color="#64748b"
         />
       </Pressable>
     </View>

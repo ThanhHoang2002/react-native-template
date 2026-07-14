@@ -55,7 +55,9 @@ export const AllVariants: Story = {
   },
   render: () => (
     <View className="gap-3">
-      {(["primary", "secondary", "outline", "ghost", "destructive"] as const).map((variant) => (
+      {(
+        ["primary", "secondary", "outline", "ghost", "destructive"] as const
+      ).map((variant) => (
         <Button key={variant} variant={variant} fullWidth>
           {variant}
         </Button>

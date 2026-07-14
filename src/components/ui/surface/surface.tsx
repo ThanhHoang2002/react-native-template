@@ -8,21 +8,21 @@ import { semanticTokens } from "../../../styles/tokens";
 const surfaceVariants = {
   muted: {
     className: "border-glass-border bg-glass-surface-muted",
-    blurIntensity: 58,
-    blurTint: "light",
+    blurIntensity: 72,
+    blurTint: "extraLight",
   },
   default: {
     className: "border-glass-border bg-glass-surface",
-    blurIntensity: 72,
-    blurTint: "light",
+    blurIntensity: 86,
+    blurTint: "extraLight",
   },
   strong: {
-    className: "border-glass-border bg-glass-surface-strong",
-    blurIntensity: 90,
+    className: "border-glass-border-strong bg-glass-surface-strong",
+    blurIntensity: 96,
     blurTint: "extraLight",
   },
   dark: {
-    className: "border-white/20 bg-surface-dark/78",
+    className: "border-white/35 bg-surface-dark/90",
     blurIntensity: 84,
     blurTint: "dark",
   },
@@ -77,11 +77,11 @@ export function Surface({
       ) : null}
       <View
         pointerEvents="none"
-        className="absolute left-px right-px top-px h-1/2 rounded-t-glass-lg bg-white/25"
+        className="absolute left-px right-px top-px h-1/2 rounded-t-glass-lg bg-white/40"
       />
       <View
         pointerEvents="none"
-        className="absolute inset-x-4 bottom-0 h-px bg-white/35"
+        className="absolute inset-x-4 bottom-0 h-px bg-white/70"
       />
       <View className={cn("relative", contentClassName)}>{children}</View>
     </View>

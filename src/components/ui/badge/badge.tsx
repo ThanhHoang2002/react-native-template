@@ -4,12 +4,13 @@ import { Text, View, type ViewProps } from "react-native";
 import { cn } from "@/utils/cn";
 
 const badgeVariants = {
-  primary: "border-primary/70 bg-primary/88 text-background",
-  accent: "border-accent/70 bg-accent/88 text-background",
-  success: "border-success/70 bg-success/88 text-background",
-  warning: "border-warning/70 bg-warning/90 text-background",
-  destructive: "border-destructive/70 bg-destructive/90 text-destructive-foreground",
-  neutral: "border-white/28 bg-white/16 text-foreground",
+  primary: "border-primary/30 bg-primary/14 text-primary",
+  accent: "border-accent/30 bg-accent/14 text-accent",
+  success: "border-success/30 bg-success/14 text-success",
+  warning: "border-warning/35 bg-warning/18 text-foreground",
+  destructive:
+    "border-destructive/30 bg-destructive/14 text-destructive",
+  neutral: "border-glass-border-strong bg-glass-surface-strong text-foreground",
 } as const;
 
 export type BadgeVariant = keyof typeof badgeVariants;
@@ -41,7 +42,12 @@ export function Badge({
       )}
     >
       {icon}
-      <Text className={cn("text-[11px] font-semibold leading-[15px] tracking-normal", textClassName)}>
+      <Text
+        className={cn(
+          "text-[11px] font-semibold leading-[15px] tracking-normal",
+          textClassName,
+        )}
+      >
         {children}
       </Text>
     </View>

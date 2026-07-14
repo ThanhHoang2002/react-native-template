@@ -36,16 +36,18 @@ export function Input({
         editable={editable}
         placeholderTextColor={semanticTokens.color.mutedForeground}
         className={cn(
-          "min-h-12 rounded-glass-md border border-glass-border bg-glass-surface px-4 py-3",
+          "min-h-12 rounded-glass-md border border-glass-border-strong bg-glass-surface-strong px-4 py-3",
           "text-base font-medium leading-6 text-foreground",
           !editable && "opacity-50",
-          hasError && "border-destructive/70 bg-destructive/10",
+          hasError && "border-destructive/60 bg-destructive/8",
           className,
         )}
         style={[
           {
             borderCurve: "continuous",
-            boxShadow: hasError ? semanticTokens.shadow.inputError : semanticTokens.shadow.input,
+            boxShadow: hasError
+              ? semanticTokens.shadow.inputError
+              : semanticTokens.shadow.input,
           },
           style,
         ]}

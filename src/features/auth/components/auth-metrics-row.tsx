@@ -8,7 +8,11 @@ export function AuthMetricsRow() {
   return (
     <View className="flex-row gap-3">
       {authMetrics.map((metric) => (
-        <AuthMetric key={metric.label} value={metric.value} label={metric.label} />
+        <AuthMetric
+          key={metric.label}
+          value={metric.value}
+          label={metric.label}
+        />
       ))}
     </View>
   );
@@ -21,11 +25,11 @@ type AuthMetricProps = {
 
 function AuthMetric({ value, label }: AuthMetricProps) {
   return (
-    <View className="min-h-20 flex-1 justify-center rounded-glass-md border border-white/12 bg-white/8 px-3">
-      <Typography variant="label" className="text-white">
+    <View className="min-h-20 flex-1 justify-center rounded-glass-md border border-glass-border-strong bg-glass-surface-muted px-3">
+      <Typography variant="label">
         {value}
       </Typography>
-      <Typography variant="caption" className="text-white/62">
+      <Typography variant="caption">
         {label}
       </Typography>
     </View>
