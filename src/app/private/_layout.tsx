@@ -1,11 +1,11 @@
+import { Stack } from 'expo-router'
 import React from 'react'
-import { Text, View } from 'react-native'
 
 const PrivateLayout = () => {
-  return (
-    <View>
-      <Text>PrivateLayout</Text>
-    </View>
+  return ( 
+    <Stack screenOptions={{
+        headerShown: false
+    }}/>
   )
 }
 
