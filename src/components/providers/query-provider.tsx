@@ -1,9 +1,9 @@
-import { queryClient } from "@/src/lib/react-query";
+import { queryClient } from "@/lib/react-query";
 import NetInfo from "@react-native-community/netinfo";
 import {
-    focusManager,
-    onlineManager,
-    QueryClientProvider,
+  focusManager,
+  onlineManager,
+  QueryClientProvider,
 } from "@tanstack/react-query";
 import { PropsWithChildren, useEffect } from "react";
 import { AppState, AppStateStatus, Platform } from "react-native";
