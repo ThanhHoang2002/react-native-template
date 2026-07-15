@@ -19,7 +19,7 @@ export function GoogleSignInButton({
       onPress={onPress}
       leftIcon={<Ionicons name="logo-google" size={19} color="#4285f4" />}
     >
-      Đăng nhập với Google
+      Đăng nhập bằng SSO
     </Button>
   );
 }

@@ -8,15 +8,21 @@ import { AuthFormCard } from "./auth-form-card";
 import { AuthHero } from "./auth-hero";
 
 export type AuthScreenProps = {
+  apiError?: string | null;
   initialMode?: AuthMode;
+  isSubmitting?: boolean;
   onGoogleSignIn?: () => void;
   onSubmit?: AuthSubmitHandler;
+  successMessage?: string | null;
 };
 
 export function AuthScreen({
+  apiError,
   initialMode = "login",
+  isSubmitting = false,
   onGoogleSignIn,
   onSubmit,
+  successMessage,
 }: AuthScreenProps) {
   const form = useAuthForm(initialMode);
 
@@ -35,13 +41,16 @@ export function AuthScreen({
             <AuthHero mode={form.mode} />
 
             <AuthFormCard
+              apiError={apiError}
               control={form.control}
               errors={form.errors}
               isRegister={form.isRegister}
+              isSubmitting={isSubmitting}
               mode={form.mode}
               onGoogleSignIn={onGoogleSignIn}
               onModeChange={form.changeMode}
               onSubmit={form.submit(onSubmit)}
+              successMessage={successMessage}
             />
 
             {/* <AuthMetricsRow /> */}

@@ -8,6 +8,7 @@ import type { AuthMode } from "../types/auth";
 
 type PasswordFieldProps = {
   errorText?: string;
+  label?: string;
   mode: AuthMode;
   onChangeText: (value: string) => void;
   value: string;
@@ -15,6 +16,7 @@ type PasswordFieldProps = {
 
 export function PasswordField({
   errorText,
+  label = "Mật khẩu",
   mode,
   onChangeText,
   value,
@@ -24,8 +26,8 @@ export function PasswordField({
   return (
     <View className="relative">
       <Input
-        label="Mật khẩu"
-        placeholder="Tối thiểu 8 ký tự"
+        label={label}
+        placeholder="8-16 ký tự, có chữ, số và ký tự đặc biệt"
         autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry={!showPassword}

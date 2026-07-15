@@ -4,50 +4,70 @@ import { Pressable, View } from "react-native";
 
 import { Button, Card, CardContent, Input, Typography } from "@/components/ui";
 import type { AuthFormValues, AuthMode } from "../types/auth";
-import { GoogleSignInButton } from "./google-sign-in-button";
 import { PasswordField } from "./password-field";
 
 type AuthFormCardProps = {
+  apiError?: string | null;
   control: Control<AuthFormValues>;
   errors: FieldErrors<AuthFormValues>;
   isRegister: boolean;
+  isSubmitting?: boolean;
   mode: AuthMode;
   onGoogleSignIn?: () => void;
   onModeChange: (mode: AuthMode) => void;
   onSubmit: () => void;
+  successMessage?: string | null;
 };
 
 export function AuthFormCard({
+  apiError,
   control,
   errors,
   isRegister,
+  isSubmitting = false,
   mode,
   onGoogleSignIn,
   onModeChange,
   onSubmit,
+  successMessage,
 }: AuthFormCardProps) {
   return (
     <Card variant="muted" contentClassName="gap-5">
       <CardContent className="gap-4">
-        <AuthFields
-          control={control}
-          errors={errors}
-          isRegister={isRegister}
-          mode={mode}
-        />
+        {isRegister ? (
+          <AuthFields
+            control={control}
+            errors={errors}
+            isRegister={isRegister}
+            mode={mode}
+          />
+        ) : (
+          <Typography variant="body">
+            Tiếp tục bằng tài khoản SSO hiện có của bạn.
+          </Typography>
+        )}
+        {apiError ? (
+          <Typography variant="caption" className="text-destructive">
+            {apiError}
+          </Typography>
+        ) : null}
+        {successMessage ? (
+          <Typography variant="caption" className="text-primary">
+            {successMessage}
+          </Typography>
+        ) : null}
         <Button
           fullWidth
+          loading={isSubmitting}
           size="lg"
-          onPress={onSubmit}
+          onPress={isRegister ? onSubmit : (onGoogleSignIn ?? onSubmit)}
           rightIcon={
             <Ionicons name="arrow-forward" size={19} color="#ffffff" />
           }
         >
-          {isRegister ? "Tạo tài khoản" : "Đăng nhập"}
+          {isRegister ? "Tạo tài khoản" : "Đăng nhập bằng SSO"}
         </Button>
         <AuthModePrompt isRegister={isRegister} onModeChange={onModeChange} />
-        <AuthDivider />
-        <GoogleSignInButton onPress={onGoogleSignIn} />
       </CardContent>
     </Card>
   );
@@ -64,16 +84,16 @@ function AuthFields({ control, errors, isRegister, mode }: AuthFieldsProps) {
       {isRegister ? (
         <Controller
           control={control}
-          name="displayName"
+          name="fullName"
           render={({ field: { onChange, value } }) => (
             <Input
-              label="Tên hiển thị"
+              label="Họ và tên"
               placeholder="Hoàng Nguyễn"
               autoCapitalize="words"
               textContentType="name"
               value={value}
               onChangeText={onChange}
-              errorText={errors.displayName?.message}
+              errorText={errors.fullName?.message}
             />
           )}
         />
@@ -109,19 +129,23 @@ function AuthFields({ control, errors, isRegister, mode }: AuthFieldsProps) {
           />
         )}
       />
-    </>
-  );
-}
 
-function AuthDivider() {
-  return (
-    <View className="flex-row items-center gap-3">
-      <View className="h-px flex-1 bg-foreground/10" />
-      <Typography variant="caption">
-        hoặc dùng email
-      </Typography>
-      <View className="h-px flex-1 bg-foreground/10" />
-    </View>
+      {isRegister ? (
+        <Controller
+          control={control}
+          name="confirmPassword"
+          render={({ field: { onChange, value } }) => (
+            <PasswordField
+              label="Xác nhận mật khẩu"
+              mode={mode}
+              value={value}
+              onChangeText={onChange}
+              errorText={errors.confirmPassword?.message}
+            />
+          )}
+        />
+      ) : null}
+    </>
   );
 }
 

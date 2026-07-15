@@ -16,8 +16,9 @@ import type {
 } from "../types/auth";
 
 const authFormDefaultValues: AuthFormValues = {
-  displayName: "",
+  confirmPassword: "",
   email: "",
+  fullName: "",
   password: "",
 };
 
@@ -43,7 +44,8 @@ export function useAuthForm(initialMode: AuthMode) {
     form.clearErrors();
 
     if (nextMode === "login") {
-      form.setValue("displayName", "");
+      form.setValue("confirmPassword", "");
+      form.setValue("fullName", "");
     }
   }
 
@@ -72,8 +74,9 @@ function resolveAuthForm(
   if (result.success) {
     return {
       values: {
-        displayName: result.data.displayName ?? "",
+        confirmPassword: result.data.confirmPassword ?? "",
         email: result.data.email,
+        fullName: result.data.fullName ?? "",
         password: result.data.password,
       },
       errors: {},

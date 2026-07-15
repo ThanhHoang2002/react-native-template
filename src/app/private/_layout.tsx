@@ -1,12 +1,30 @@
-import { Stack } from 'expo-router'
-import React from 'react'
+import { Redirect, Stack } from "expo-router";
+
+import { LoadingScreen } from "@/features/auth/components/loading-screen";
+import {
+  selectIsAuthenticated,
+  useAuthStore,
+} from "@/features/auth/stores/auth-store";
 
 const PrivateLayout = () => {
-  return ( 
-    <Stack screenOptions={{
-        headerShown: false
-    }}/>
-  )
-}
+  const isAuthenticated = useAuthStore(selectIsAuthenticated);
+  const status = useAuthStore((state) => state.status);
 
-export default PrivateLayout
+  if (status === "loading") {
+    return <LoadingScreen />;
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect href="/login" />;
+  }
+
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    />
+  );
+};
+
+export default PrivateLayout;
