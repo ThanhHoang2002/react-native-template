@@ -2,29 +2,19 @@ import { create } from "zustand";
 
 import { queryClient } from "@/lib/react-query";
 
+import { ApiRequestError, getMe, syncUser } from "../api/auth-api";
 import {
-  ApiRequestError,
-  getMe,
-  logoutSso,
-  registerAccount,
-  syncUser,
-} from "../api/auth-api";
-import {
-  clearStoredAuthTokens,
-  getStoredAuthTokens,
-  isTokenExpired,
-  saveAuthTokens,
-} from "../lib/token-storage";
-import {
-  refreshKeycloakTokens,
-  revokeRefreshToken,
-  signInWithKeycloak,
-} from "../services/keycloak-auth-service";
+  getFirebaseAuthErrorMessage,
+  registerWithEmail,
+  signInWithEmail,
+  signInWithGoogleIdToken,
+  signOutFirebase,
+  waitForFirebaseUser,
+} from "../services/firebase-auth-service";
 import type {
   AuthMetaData,
   AuthResource,
   AuthSubmitValues,
-  AuthTokens,
   AuthUser,
 } from "../types/auth";
 
@@ -45,7 +35,9 @@ type AuthActions = {
   clearSession: () => Promise<void>;
   refreshSession: () => Promise<void>;
   register: (values: AuthSubmitValues) => Promise<void>;
-  signIn: () => Promise<void>;
+  setError: (error: string | null) => void;
+  signIn: (values: AuthSubmitValues) => Promise<void>;
+  signInWithGoogle: (idToken: string) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -66,16 +58,12 @@ function getAuthErrorMessage(error: unknown) {
     return error.message;
   }
 
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  return "Không thể xử lý yêu cầu đăng nhập. Vui lòng thử lại.";
+  return getFirebaseAuthErrorMessage(error);
 }
 
-async function applyMe(tokens: AuthTokens) {
-  await syncUser(tokens.accessToken);
-  const response = await getMe(tokens.accessToken);
+async function applyMe(accessToken: string) {
+  await syncUser(accessToken);
+  const response = await getMe(accessToken);
   const data = response.data;
 
   useAuthStore.setState({
@@ -89,52 +77,52 @@ async function applyMe(tokens: AuthTokens) {
 export const useAuthStore = create<AuthStore>((set, get) => ({
   ...initialState,
   bootstrap: async () => {
+    set({ status: "loading" });
+
     try {
       await get().refreshSession();
-    } catch {
-      await clearStoredAuthTokens();
-      set({ status: "unauthenticated" });
+    } catch (bootstrapError) {
+      await signOutFirebase().catch(() => undefined);
+      queryClient.clear();
+      set({
+        ...initialState,
+        error: getAuthErrorMessage(bootstrapError),
+      });
     }
   },
   clearSession: async () => {
-    await clearStoredAuthTokens();
     queryClient.clear();
-    set({
-      error: null,
-      isSubmitting: false,
-      metaData: null,
-      resources: [],
-      status: "unauthenticated",
-      successMessage: null,
-      user: null,
-    });
+    set(initialState);
   },
   refreshSession: async () => {
-    const tokens = await getStoredAuthTokens();
+    const firebaseUser = await waitForFirebaseUser();
 
-    if (!tokens) {
+    if (!firebaseUser) {
       await get().clearSession();
       return;
     }
 
-    const freshTokens = isTokenExpired(tokens)
-      ? await refreshKeycloakTokens(tokens.refreshToken)
-      : tokens;
+    await firebaseUser.reload();
 
-    if (freshTokens !== tokens) {
-      await saveAuthTokens(freshTokens);
+    if (!firebaseUser.emailVerified) {
+      await signOutFirebase();
+      await get().clearSession();
+      return;
     }
 
-    await applyMe(freshTokens);
+    const accessToken = await firebaseUser.getIdToken();
+    await applyMe(accessToken);
   },
   register: async (values: AuthSubmitValues) => {
     set({ error: null, isSubmitting: true, successMessage: null });
 
     try {
-      await registerAccount(values);
+      await registerWithEmail(values);
+      await signOutFirebase();
       set({
+        status: "unauthenticated",
         successMessage:
-          "Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản rồi đăng nhập bằng SSO.",
+          "Dang ky thanh cong. Vui long kiem tra email de xac thuc tai khoan roi dang nhap.",
       });
     } catch (registerError) {
       set({ error: getAuthErrorMessage(registerError) });
@@ -142,13 +130,32 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isSubmitting: false });
     }
   },
-  signIn: async () => {
+  setError: (error: string | null) => {
+    set({ error });
+  },
+  signIn: async (values: AuthSubmitValues) => {
     set({ error: null, isSubmitting: true, successMessage: null });
 
     try {
-      const tokens = await signInWithKeycloak();
-      await saveAuthTokens(tokens);
-      await applyMe(tokens);
+      const firebaseUser = await signInWithEmail(values);
+      const accessToken = await firebaseUser.getIdToken();
+      await applyMe(accessToken);
+    } catch (signInError) {
+      set({
+        error: getAuthErrorMessage(signInError),
+        status: "unauthenticated",
+      });
+    } finally {
+      set({ isSubmitting: false });
+    }
+  },
+  signInWithGoogle: async (idToken: string) => {
+    set({ error: null, isSubmitting: true, successMessage: null });
+
+    try {
+      const firebaseUser = await signInWithGoogleIdToken(idToken);
+      const accessToken = await firebaseUser.getIdToken();
+      await applyMe(accessToken);
     } catch (signInError) {
       set({
         error: getAuthErrorMessage(signInError),
@@ -162,12 +169,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({ error: null, isSubmitting: true });
 
     try {
-      const tokens = await getStoredAuthTokens();
-
-      if (tokens) {
-        await logoutSso(tokens).catch(() => undefined);
-        await revokeRefreshToken(tokens.refreshToken).catch(() => undefined);
-      }
+      await signOutFirebase();
     } finally {
       await get().clearSession();
     }

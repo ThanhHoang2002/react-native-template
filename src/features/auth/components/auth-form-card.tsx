@@ -4,6 +4,7 @@ import { Pressable, View } from "react-native";
 
 import { Button, Card, CardContent, Input, Typography } from "@/components/ui";
 import type { AuthFormValues, AuthMode } from "../types/auth";
+import { GoogleSignInButton } from "./google-sign-in-button";
 import { PasswordField } from "./password-field";
 
 type AuthFormCardProps = {
@@ -34,18 +35,13 @@ export function AuthFormCard({
   return (
     <Card variant="muted" contentClassName="gap-5">
       <CardContent className="gap-4">
-        {isRegister ? (
-          <AuthFields
-            control={control}
-            errors={errors}
-            isRegister={isRegister}
-            mode={mode}
-          />
-        ) : (
-          <Typography variant="body">
-            Tiếp tục bằng tài khoản SSO hiện có của bạn.
-          </Typography>
-        )}
+        <AuthFields
+          control={control}
+          errors={errors}
+          isRegister={isRegister}
+          mode={mode}
+        />
+
         {apiError ? (
           <Typography variant="caption" className="text-destructive">
             {apiError}
@@ -56,17 +52,26 @@ export function AuthFormCard({
             {successMessage}
           </Typography>
         ) : null}
+
         <Button
           fullWidth
           loading={isSubmitting}
           size="lg"
-          onPress={isRegister ? onSubmit : (onGoogleSignIn ?? onSubmit)}
+          onPress={onSubmit}
           rightIcon={
             <Ionicons name="arrow-forward" size={19} color="#ffffff" />
           }
         >
-          {isRegister ? "Tạo tài khoản" : "Đăng nhập bằng SSO"}
+          {isRegister ? "Tạo tài khoản" : "Đăng nhập"}
         </Button>
+
+        {!isRegister ? (
+          <GoogleSignInButton
+            disabled={isSubmitting}
+            onPress={onGoogleSignIn}
+          />
+        ) : null}
+
         <AuthModePrompt isRegister={isRegister} onModeChange={onModeChange} />
       </CardContent>
     </Card>

@@ -3,13 +3,7 @@ import {
   ApiRequestError,
   buildApiUrl,
 } from "@/features/auth/api/auth-api";
-import {
-  clearStoredAuthTokens,
-  getStoredAuthTokens,
-  isTokenExpired,
-  saveAuthTokens,
-} from "@/features/auth/lib/token-storage";
-import { refreshKeycloakTokens } from "@/features/auth/services/keycloak-auth-service";
+import { getFirebaseIdToken } from "@/features/auth/services/firebase-auth-service";
 import type { ApiResponse } from "@/features/auth/types/auth";
 
 type CallApiOptions = {
@@ -18,34 +12,21 @@ type CallApiOptions = {
   retryOnUnauthorized?: boolean;
 };
 
-async function getFreshTokens() {
-  const tokens = await getStoredAuthTokens();
+async function getAuthHeaders(forceRefresh = false): Promise<Record<string, string>> {
+  const accessToken = await getFirebaseIdToken(forceRefresh);
 
-  if (!tokens) {
-    return null;
-  }
-
-  if (!isTokenExpired(tokens)) {
-    return tokens;
-  }
-
-  const refreshedTokens = await refreshKeycloakTokens(tokens.refreshToken);
-  await saveAuthTokens(refreshedTokens);
-
-  return refreshedTokens;
+  return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
 }
 
 export async function callApi<T>(
   endpoint: ApiEndpoint,
   options: CallApiOptions = {},
 ): Promise<ApiResponse<T>> {
-  const tokens = await getFreshTokens();
-  const headers = {
+  const authHeaders = await getAuthHeaders();
+  const headers: Record<string, string> = {
     Accept: "application/json",
     ...(options.body ? { "Content-Type": "application/json" } : {}),
-    ...(tokens?.accessToken
-      ? { Authorization: `Bearer ${tokens.accessToken}` }
-      : {}),
+    ...authHeaders,
     ...options.headers,
   };
 
@@ -56,16 +37,18 @@ export async function callApi<T>(
   });
 
   if (response.status === 401 && options.retryOnUnauthorized !== false) {
-    if (!tokens?.refreshToken) {
-      await clearStoredAuthTokens();
+    const refreshedAuthHeaders = await getAuthHeaders(true);
+
+    if (!refreshedAuthHeaders.Authorization) {
       throw new ApiRequestError("Phiên đăng nhập đã hết hạn.", 401);
     }
 
-    const refreshedTokens = await refreshKeycloakTokens(tokens.refreshToken);
-    await saveAuthTokens(refreshedTokens);
-
     return callApi<T>(endpoint, {
       ...options,
+      headers: {
+        ...options.headers,
+        ...refreshedAuthHeaders,
+      },
       retryOnUnauthorized: false,
     });
   }

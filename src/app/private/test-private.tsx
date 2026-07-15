@@ -29,10 +29,11 @@ const TestPrivate = () => {
         contentContainerClassName="min-h-full gap-5 px-5 pb-8 pt-16"
       >
         <View className="gap-3">
-          <Badge variant="primary">SSO authenticated</Badge>
+          <Badge variant="primary">Firebase authenticated</Badge>
           <Typography variant="display">Quỹ FC</Typography>
           <Typography variant="body">
-            Phiên đăng nhập đã được đồng bộ qua Keycloak và Laravel `/me`.
+            Phiên đăng nhập đã được xác thực bằng Firebase và đồng bộ với
+            backend `/me`.
           </Typography>
         </View>
 
@@ -61,8 +62,8 @@ const TestPrivate = () => {
           <CardHeader>
             <CardTitle>Resource-based UI</CardTitle>
             <CardDescription>
-              Mobile dùng `resources[].subject` giống website để ẩn hoặc hiện
-              UI. Backend vẫn phải kiểm tra quyền ở từng API.
+              Mobile dùng `resources[].subject` để ẩn hoặc hiện UI. Backend vẫn
+              phải kiểm tra quyền ở từng API.
             </CardDescription>
           </CardHeader>
           <CardContent>

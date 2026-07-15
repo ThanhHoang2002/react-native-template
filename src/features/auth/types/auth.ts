@@ -59,11 +59,3 @@ export type ApiResponse<T> = {
   data?: T;
   errors?: Record<string, string>;
 };
-
-export type AuthTokens = {
-  accessToken: string;
-  refreshToken: string;
-  expiresAt: number;
-  idToken?: string;
-  tokenType?: string;
-};

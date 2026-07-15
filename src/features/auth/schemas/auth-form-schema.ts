@@ -43,7 +43,7 @@ export const loginSchema = z.object({
   confirmPassword: z.string().optional().default(""),
   email: emailSchema,
   fullName: z.string().optional().default(""),
-  password: passwordSchema,
+  password: z.string().min(1, "Nhập mật khẩu."),
 });
 
 export const registerSchema = z

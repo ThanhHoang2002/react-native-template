@@ -1,12 +1,7 @@
 import { env } from "@/config/env";
 
 import { AuthEndpoints, type ApiEndpoint } from "./auth-endpoints";
-import type {
-  ApiResponse,
-  AuthSubmitValues,
-  AuthTokens,
-  MeResponse,
-} from "../types/auth";
+import type { ApiResponse, MeResponse } from "../types/auth";
 
 type RequestOptions = {
   accessToken?: string;
@@ -77,27 +72,10 @@ export async function requestApi<T>(
   return data as ApiResponse<T>;
 }
 
-export async function registerAccount(values: AuthSubmitValues) {
-  return requestApi<unknown>(AuthEndpoints.register, {
-    body: {
-      email: values.email,
-      fullName: values.fullName,
-      password: values.password,
-    },
-  });
-}
-
 export async function syncUser(accessToken: string) {
   return requestApi<void>(AuthEndpoints.syncUser, { accessToken });
 }
 
 export async function getMe(accessToken: string) {
   return requestApi<MeResponse>(AuthEndpoints.me, { accessToken });
-}
-
-export async function logoutSso(tokens: AuthTokens) {
-  return requestApi<unknown>(AuthEndpoints.logoutSso, {
-    accessToken: tokens.accessToken,
-    body: { refreshToken: tokens.refreshToken },
-  });
 }
